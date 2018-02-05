@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 /*
  * Perform element wise iq31 multiply and left shift

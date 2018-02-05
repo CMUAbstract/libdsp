@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 /*
  * Perform element wise Q31 multiplication of a single source vector with a Q31

@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 msp_status msp_sinusoid_q15(const msp_sinusoid_q15_params *params, _q15 *dst)
 {

@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 /*
  * Optimized helper function for shift right with complex conjugate, used for

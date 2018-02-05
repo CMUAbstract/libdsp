@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 msp_status msp_q15_to_iq31(const msp_q15_to_iq31_params *params, const _q15 *src, _iq31 *dst)
 {

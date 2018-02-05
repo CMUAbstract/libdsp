@@ -30,7 +30,7 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * --/COPYRIGHT--*/
 
-#include "../../include/DSPLib.h"
+#include "DSPLib.h"
 
 msp_status msp_cmplx_mac_iq31(const msp_cmplx_mac_iq31_params *params, const _iq31 *srcA, const _iq31 *srcB, _iq31 *result)
 {
