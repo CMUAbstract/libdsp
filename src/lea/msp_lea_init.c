@@ -35,7 +35,7 @@
 #if defined(MSP_USE_LEA)
 
 #if defined(MSP_DISABLE_LPM0)
-#warning "DSPLib: LPM0 is disabled, undefine MSP_DISABLE_LPM0 to enable LPM0.
+#warning "DSPLib: LPM0 is disabled, undefine MSP_DISABLE_LPM0 to enable LPM0."
 #elif ((MSP_LEA_REVISION==MSP_LEA_REVISION_A) && !defined(MSP_ENABLE_LPM0))
 #warning "DSPLib: Building for revision A of LEA, LPM0 is disabled to work \
 around LEA1 errata. See the LEA chapter of API User's Guide and device errata \
@@ -44,6 +44,8 @@ sheet for more details."
 
 void msp_lea_init(void)
 {
+    /* Initialize the isr; make linker see it*/
+    msp_lea_init_isr();
     /* Initialize DSPLib ISR flags. */
     msp_lea_ifg = 0;
 

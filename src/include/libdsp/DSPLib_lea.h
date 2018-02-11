@@ -1118,6 +1118,17 @@ extern void msp_lea_init(void);
 //
 //! \ingroup dsplib_support_lea
 //!
+//! \brief DSPLib isr initialization routine for LEA.
+//!
+//! \return none
+//
+//******************************************************************************
+extern void msp_lea_init_isr(void);
+
+//******************************************************************************
+//
+//! \ingroup dsplib_support_lea
+//!
 //! \brief Invoke a command with interrupts enabled and enter low-power mode or
 //! poll the interrupt flag.
 //!
