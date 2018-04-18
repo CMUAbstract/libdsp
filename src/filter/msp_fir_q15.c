@@ -158,12 +158,6 @@ msp_status msp_fir_q15(const msp_fir_q15_params *params, const _q15 *src, _q15 *
     }
 #endif //MSP_DISABLE_DIAGNOSTICS
 
-#if defined(__MSP430_HAS_MPY32__)
-    /* If MPY32 is available save control context and set to fractional mode. */
-    uint16_t ui16MPYState = MPY32CTL0;
-    MPY32CTL0 = MPYFRAC | MPYDLYWRTEN | MPYSAT;
-#endif //__MSP430_HAS_MPY32__
-
     /* Calculate filtered output using circular buffer. */
     if (enableCircBuf) {
         uintptr_t mask;
@@ -174,6 +168,12 @@ msp_status msp_fir_q15(const msp_fir_q15_params *params, const _q15 *src, _q15 *
         mask = (uintptr_t)(2*outputLength*sizeof(_q15) - 1);
         srcStartPtr = (const _q15 *)__circular_mask(src, mask);
         srcEndPtr = srcStartPtr + 2*outputLength;
+
+#if defined(__MSP430_HAS_MPY32__)
+        /* If MPY32 is available save control context and set to fractional mode. */
+        uint16_t ui16MPYState = MPY32CTL0;
+        MPY32CTL0 = MPYFRAC | MPYDLYWRTEN | MPYSAT;
+#endif //__MSP430_HAS_MPY32__
 
         /* Calculate filtered output. */
         for (i = 0; i < outputLength; i++) {
@@ -227,13 +227,15 @@ msp_status msp_fir_q15(const msp_fir_q15_params *params, const _q15 *src, _q15 *
     }
     /* Calculate filtered output without circular buffer. */
     else {
+#if defined(__MSP430_HAS_MPY32__)
+        uint16_t ui16MPYState = MPY32CTL0;
+        MPY32CTL0 = MPYFRAC | MPYDLYWRTEN | MPYSAT;
         for (i = 0; i < outputLength; i++) {
             /* Reset data pointers and loop counters. */
             srcPtr = &src[i];
-            coeffPtr = &params->coeffs[tapLength-1];
+            coeffPtr = &(params->coeffs[tapLength-1]);
             j = tapLength;
 
-#if defined(__MSP430_HAS_MPY32__)
             /* Reset multiplier context. */
             MPY32CTL0 &= ~MPYC;
             RESLO = 0; RESHI = 0;
@@ -246,7 +248,14 @@ msp_status msp_fir_q15(const msp_fir_q15_params *params, const _q15 *src, _q15 *
 
             /* Store accumulated result. */
             *dst++ = RESHI;
+        }
+        MPY32CTL0 = ui16MPYState;
 #else //__MSP430_HAS_MPY32__
+        for (i = 0; i < outputLength; i++) {
+            /* Reset data pointers and loop counters. */
+            srcPtr = &src[i];
+            coeffPtr = &params->coeffs[tapLength-1];
+            j = tapLength;
             /* Reset accumulator. */
             _iq31 result = 0;
 
@@ -257,11 +266,11 @@ msp_status msp_fir_q15(const msp_fir_q15_params *params, const _q15 *src, _q15 *
 
             /* Saturate accumulator and store result. */
             *dst++ = __saturate(result >> 15, INT16_MIN, INT16_MAX);
-#endif //__MSP430_HAS_MPY32__
         }
+#endif //__MSP430_HAS_MPY32__
     }
 
-     return MSP_SUCCESS;
+    return MSP_SUCCESS;
 }
 
 #endif //MSP_USE_LEA

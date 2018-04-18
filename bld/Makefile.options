@@ -1,0 +1,3 @@
+ifneq ($(LIBDSP_DISABLE_LEA),)
+override CFLAGS += -DMSP_DISABLE_LEA=1
+endif

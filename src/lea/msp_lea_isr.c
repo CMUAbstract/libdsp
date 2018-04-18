@@ -36,18 +36,20 @@
 
 void msp_lea_init_isr(void){}
 
-#if defined(__TI_COMPILER_VERSION__) || (__IAR_SYSTEMS_ICC__) 
-#pragma vector=LEA_VECTOR
-__interrupt void msp_lea_isr(void)
-#elif defined(__GNUC__) && (__MSP430__)
-void __attribute__ ((interrupt(LEA_VECTOR))) msp_lea_isr(void)
-#endif
-{
-    /* Save the interrupt flags, clear interrupt and exit LPM0. */
-    uint16_t flags = LEAIFG;
-    LEAIFG |= flags;
-    msp_lea_ifg = flags;
-    __bic_SR_register_on_exit(LPM0_bits);
-}
+#ifdef CONFIG_INTERRUPT
+	#if defined(__TI_COMPILER_VERSION__) || (__IAR_SYSTEMS_ICC__) 
+	#pragma vector=LEA_VECTOR
+	__interrupt void msp_lea_isr(void)
+	#elif defined(__GNUC__) && (__MSP430__)
+	void __attribute__ ((interrupt(LEA_VECTOR))) msp_lea_isr(void)
+	#endif
+	{
+	    /* Save the interrupt flags, clear interrupt and exit LPM0. */
+	    uint16_t flags = LEAIFG;
+	    LEAIFG |= flags;
+	    msp_lea_ifg = flags;
+	    __bic_SR_register_on_exit(LPM0_bits);
+	}
 
+	#endif
 #endif
