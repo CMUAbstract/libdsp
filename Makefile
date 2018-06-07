@@ -9,3 +9,5 @@ override SRC_ROOT = ../../src
 override CFLAGS += \
 	-I../../src/include \
 	-I../../src/include/$(LIB)
+
+include $(MAKER_ROOT)/Makefile.$(TOOLCHAIN)
